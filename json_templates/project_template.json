@@ -1,0 +1,38 @@
+{
+  "projectName": "Project name here",
+  "projectStatus": "Current status of project in a few words",
+  "projectShortDescription": "Short description of project",
+  "projectDescription": "Full escription of project for those who is interested. Will be listed at project own page.",
+  "projectContacts": {
+	   "www" : "http://project.site",
+     "github" : "projectname",
+     "telegram" : "telegramGroup",
+     "email" : "username@local.domain",
+     "twitter" : "username"
+  },
+  "projectMembers": {
+    "us3rn4me" : {
+      "www" : "http://local.domain",
+      "github" : "",
+      "telegram" : "",
+      "email" : "username@local.domain",
+      "twitter" : "username"
+    },
+    "friend" : {
+      "www" : "http://local.domain",
+      "github" : "",
+      "telegram" : "",
+      "email" : "friend@local.domain",
+      "twitter" : "friend"
+    }
+  },
+  "projectSlogan" : "Slogan to cheer team up, i.e. 'Hack the gibson!' or something like that.",
+  "projectLogo": "http://project.site/projectLogo.png",
+  "whoIsNeeded": {
+    "Title of someone who is needed": "What this someone should be able to do"
+  },
+  "projectTags": [
+    "tag1",
+    "tag2"
+  ]
+}
