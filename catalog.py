@@ -147,8 +147,6 @@ def processProjectJson(pid,pUrl):
     if not not os.path.exists(projectPath+'/project.json'):
         writeToFile(projectPath+'/project.json',json.dumps(projectData))
 
-
-
     return projectData
 
 def buildProjectsPage(data):
@@ -256,9 +254,7 @@ def buildProjectPage(id,data):
 		page = page + '<tr><td>Project related: none</td></tr>'
 
 
-	#print projectData['projectMembers']
 	for pVar in projectData['projectMembers']:
-		#print pVar
 		pContacts = buildContacts(data['projectMembers'][pVar],projVarsContacts)
 		page = page + '<tr><td>'+htmlEscape(pVar)+': '+' | '.join(pContacts)+'</td></tr>'
 
@@ -275,13 +271,57 @@ def buildProjectPage(id,data):
 	page = pageHeaderP + pageLinksP + page + pageFooter
 	return page
 
+def buildStaticPage(path,static):
+    if not os.path.exists(path+'/'+static+'/'):
+        os.mkdir(path+'/'+static+'/')
+    if not os.path.exists(path+'/'+static+'/index.html'):
+        if static != 'submit':
+            page = '''
+            	<div class="panel panel-default">
+            		<div class="panel-heading"><b>'''+static+'''</b></div>
+                        <div class="panel-body">
+                            Please edit this page with your favorite edit tool! (vim, of course vim)
+                        </div>
+                    </div>
+                </div>
+            '''
+        else:
+            page = '''
+            	<div class="panel panel-default">
+            		<div class="panel-heading"><b>'''+static+'''</b></div>
+                        <div class="panel-body">
+                            Please edit this page with your favorite edit tool! (vim, of course vim)
+                        </div>
+                    </div>
+                </div>
+            '''
+
+        pageHeaderP = pageHeader.replace('TITLE_HERE',static)
+        pageLinksP = pageLinks.replace('PROJECTS_IS_ACTIVE','')
+        if static=='about':
+            pageLinksP = pageLinksP.replace('ABOUT_IS_ACTIVE','class="active"')
+        else :
+            pageLinksP = pageLinksP.replace('ABOUT_IS_ACTIVE','')
+        if static=='submit':
+            pageLinksP = pageLinksP.replace('SUBMIT_IS_ACTIVE','class="active"')
+        else:
+            pageLinksP = pageLinksP.replace('SUBMIT_IS_ACTIVE','')
+        if static=='ideas':
+            pageLinksP = pageLinksP.replace('IDEAS_IS_ACTIVE','class="active"')
+        else:
+            pageLinksP = pageLinksP.replace('IDEAS_IS_ACTIVE','')
+
+        page = pageHeaderP + pageLinksP + page + pageFooter
+        writeToFile(path+static+'/index.html',page)
+
+
+
 projectsPage = {}
 print 'Group Name : '+groupName
 print '[+] Processing projects'
 
 for i in projectsData[groupName]:
     projectUrl = projectsData[groupName][i]
-    #projectUrl = "http://github.com/ygoltsev/123.json"
     projectId = i
     print ' | '+str(projectId)+' : '+projectUrl
     projectData = processProjectJson(projectId, projectUrl)
@@ -303,5 +343,7 @@ print '[+] Done'
 print '[~] Generating projects index page'
 projectsIndexHtml = buildProjectsPage(projectsPage)
 writeToFile(projectsJsonDir+'/index.html',projectsIndexHtml)
-#print projectsIndexHtml
+for staticPage in ['about','ideas','submit']:
+    buildStaticPage(projectsJsonDir,staticPage)
+
 print '[+] Done'
